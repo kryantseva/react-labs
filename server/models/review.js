@@ -3,9 +3,7 @@ import sequelize from '../config/database.js';
 import { User } from './user.js';
 import { Offer }  from './offer.js';
 
-
 class Review extends Model {}
-
 
 Review.init({
   text: {
