@@ -1,7 +1,7 @@
 import { Offer } from '../models/offer.js';
-import { User } from '../models/user.js'; // 
+import { User } from '../models/user.js';
 import ApiError from '../../error/ApiError.js';
-import { adaptOfferToClient, adaptFullOfferToClient } from '../adapters/offerAdapter.js'; 
+import { adaptOfferToClient, adaptFullOfferToClient } from '../adapters/offerAdapter.js';
 
 export async function getAllOffers(req, res, next) {
     try {
@@ -83,14 +83,14 @@ export async function getFullOffer(req, res, next) {
         const { id } = req.params;
 
         const offer = await Offer.findByPk(id, {
-            include: { model: User, as: 'author' } 
+            include: { model: User, as: 'author' }
         });
 
         if (!offer) {
             return next(ApiError.notFound('Предложение не найдено.'));
         }
 
-        const adaptedOffer = adaptFullOfferToClient(offer.toJSON()); 
+        const adaptedOffer = adaptFullOfferToClient(offer.toJSON());
 
         return res.status(200).json(adaptedOffer);
     } catch (error) {
@@ -98,3 +98,35 @@ export async function getFullOffer(req, res, next) {
         next(ApiError.internal('Не удалось получить полное предложение: ' + error.message));
     }
 }
+
+export const getFavoriteOffers = async (req, res, next) => {
+    try {
+        const offers = await Offer.findAll({
+            where: { isFavorite: true }
+        });
+        const adaptedOffers = offers.map(adaptOfferToClient);
+        res.status(200).json(adaptedOffers);
+    } catch (error) {
+        console.error("Ошибка при получении избранных предложений:", error);
+        next(ApiError.internal('Не удалось получить список избранных предложений.'));
+    }
+};
+
+export const toggleFavorite = async (req, res, next) => {
+    try {
+        const { offerId, status } = req.params; 
+
+        const offer = await Offer.findByPk(offerId);
+        if (!offer) {
+            return next(ApiError.notFound('Предложение не найдено'));
+        }
+
+        offer.isFavorite = status === '1' || status === 'true'; 
+        await offer.save();
+
+        res.json(offer);
+    } catch (error) {
+        console.error("Ошибка при обновлении статуса избранного:", error);
+        next(ApiError.internal('Ошибка при обновлении статуса избранного: ' + error.message));
+    }
+};

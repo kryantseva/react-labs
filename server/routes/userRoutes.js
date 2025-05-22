@@ -1,8 +1,9 @@
 import { Router } from 'express';
 import upload from '../middleware/upload.js';
-import { registration } from '../controllers/userController.js';
+import { registration, login, checkAuth, logout } from '../controllers/userController.js'; 
 import ApiError from '../../error/ApiError.js';
 import multer from 'multer';
+import { authenticateToken } from '../middleware/authMiddleware.js';
 
 const router = new Router();
 
@@ -18,5 +19,9 @@ router.post('/', (req, res, next) => {
         next();
     });
 }, registration);
+
+router.post('/login', login); 
+router.get('/login', authenticateToken, checkAuth); 
+router.delete('/logout', logout); 
 
 export default router;

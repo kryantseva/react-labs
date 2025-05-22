@@ -1,13 +1,15 @@
 import { Router } from "express";
-import { getAllOffers, createOffer, getFullOffer } from "../controllers/offerController.js"; 
+import { getAllOffers, createOffer, getFullOffer, getFavoriteOffers, toggleFavorite } from "../controllers/offerController.js";
 import upload from '../middleware/upload.js';
 import ApiError from '../../error/ApiError.js';
 import multer from 'multer';
+import { authenticateToken } from '../middleware/authMiddleware.js'; 
 
 const offerRouter = new Router();
 
 offerRouter.post(
     '/',
+    authenticateToken, 
     (req, res, next) => {
         upload.fields([
             { name: 'previewImage', maxCount: 1 },
@@ -26,8 +28,9 @@ offerRouter.post(
     createOffer
 );
 
-offerRouter.get('/:id', getFullOffer); 
-
+offerRouter.get('/favorite', getFavoriteOffers);
+offerRouter.post('/favorite/:offerId/:status', authenticateToken, toggleFavorite); 
+offerRouter.get('/:id', getFullOffer);
 offerRouter.get('/', getAllOffers);
 
 export default offerRouter;
