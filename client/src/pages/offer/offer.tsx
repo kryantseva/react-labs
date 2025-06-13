@@ -1,11 +1,31 @@
 import React from 'react';
-import { FullOffer } from '../../types/offer';
+import { FullOffer, OffersList } from '../../types/offer';
 import { Logo } from '../../components/logo';
 import { useParams } from 'react-router-dom';
 import { CommentForm } from '../../components/comment-form/comment-form';
+import { ReviewList } from '../../components/review-list/review-list';
+import { reviews } from '../../mocks/reviews';
+import { Map } from '../../components/map/Map';
+import { offers as allOffers } from '../../mocks/offers';
+import { CitiesCardList } from '../../components/cities-card-list/cities-card-list';
 
 interface OfferProps {
   offers: FullOffer[];
+}
+
+function toOffersList(offer: FullOffer): OffersList {
+  return {
+    id: offer.id,
+    title: offer.title,
+    type: offer.type,
+    price: offer.price,
+    isPremium: offer.isPremium,
+    previewImage: offer.images[0], // используем первое изображение как preview
+    rating: offer.rating,
+    city: offer.city,
+    location: offer.location,
+    isFavorite: offer.isFavorite,
+  };
 }
 
 function Offer({ offers }: OfferProps): JSX.Element {
@@ -18,6 +38,15 @@ function Offer({ offers }: OfferProps): JSX.Element {
   }
 
   const ratingWidth = (offer.rating / 5) * 100;
+
+  // Выбираем 3 других предложения в том же городе и преобразуем к OffersList
+  const nearbyOffers = allOffers
+    .filter((o) => o.city.name === offer.city.name && o.id !== offer.id)
+    .slice(0, 3)
+    .map(toOffersList);
+
+  // Формируем массив для карты: текущий оффер + соседние
+  const mapOffers = [toOffersList(offer), ...nearbyOffers];
 
   return (
     <div className="page">
@@ -110,11 +139,22 @@ function Offer({ offers }: OfferProps): JSX.Element {
                 </div>
               </div>
               <section className="offer__reviews reviews">
+                <ReviewList reviews={reviews} />
                 <CommentForm />
               </section>
             </div>
           </div>
           <section className="offer__map map">
+            <Map
+              key={offer.id}
+              offers={mapOffers}
+              className="offer__map"
+              height="350px"
+            />
+          </section>
+          <section className="near-places places">
+            <h2 className="near-places__title">Other places in the neighbourhood</h2>
+            <CitiesCardList offersList={nearbyOffers} />
           </section>
         </section>
       </main>

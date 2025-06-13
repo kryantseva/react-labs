@@ -2,6 +2,7 @@
 import React from 'react';
 import { FavoriteCardList } from '../../components/favorite-card-list/favorite-card-list';
 import { offersList } from '../../mocks/offers-list';
+import { Logo } from '../../components/logo';
 
 function Favorites(): React.JSX.Element {
   const favoriteOffers = offersList.filter((offer) => offer.isFavorite);
@@ -16,9 +17,9 @@ function Favorites(): React.JSX.Element {
         </div>
       </main>
       <footer className="footer container">
-        <a className="footer__logo-link" href="main.html">
-          <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33" />
-        </a>
+        <div className="footer__logo-wrapper">
+          <Logo />
+        </div>
       </footer>
     </div>
   );

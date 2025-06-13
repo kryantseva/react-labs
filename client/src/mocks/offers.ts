@@ -4,7 +4,7 @@ import { FullOffer } from '../types/offer'; // Импортируем тип Ful
 
 const offers: FullOffer[] = [
   {
-    id: 'bbb06a0e-3f92-446d-9a68-cb64b5d3de2b',
+    id: 'amsterdam-1',
     title: 'Beautiful & luxurious apartment at great location',
     type: 'apartment',
     price: 120,
@@ -34,6 +34,70 @@ const offers: FullOffer[] = [
     },
     images: ['apartment-01.jpg', 'apartment-02.jpg', 'apartment-03.jpg'],
     maxAdults: 4,
+  },
+  {
+    id: 'amsterdam-2',
+    title: 'Canal View Apartment',
+    type: 'apartment',
+    price: 250,
+    city: {
+      name: 'Amsterdam',
+      location: {
+        latitude: 52.370216,
+        longitude: 4.895168,
+        zoom: 10
+      }
+    },
+    location: {
+      latitude: 52.37561,
+      longitude: 4.90197,
+      zoom: 16
+    },
+    isFavorite: false,
+    isPremium: true,
+    rating: 4.2,
+    description: 'Modern apartment with stunning views of the Amsterdam canals.',
+    bedrooms: 2,
+    goods: ['Wi-Fi', 'Dishwasher', 'Parking'],
+    host: {
+      name: 'Crocodilo',
+      avatarUrl: 'crocodilo.png',
+      isPro: true
+    },
+    images: ['apartment2-01.png', 'apartment2-02.png', 'apartment2-03.png'],
+    maxAdults: 3,
+  },
+  {
+    id: 'amsterdam-3',
+    title: 'Central Studio in Amsterdam',
+    type: 'studio',
+    price: 180,
+    city: {
+      name: 'Amsterdam',
+      location: {
+        latitude: 52.370216,
+        longitude: 4.895168,
+        zoom: 10
+      }
+    },
+    location: {
+      latitude: 52.380955,
+      longitude: 4.939309,
+      zoom: 16
+    },
+    isFavorite: true,
+    isPremium: false,
+    rating: 4.5,
+    description: 'Cozy studio in the heart of Amsterdam.',
+    bedrooms: 1,
+    goods: ['Wi-Fi', 'Kitchen', 'Heating'],
+    host: {
+      name: 'Sophie',
+      avatarUrl: 'sophie.png',
+      isPro: false
+    },
+    images: ['apartment3-01.png', 'apartment3-02.png', 'apartment3-03.png'],
+    maxAdults: 2,
   },
   {
     id: 'a1b2c3d4-e5f6-7890-1234-567890abcdef',
@@ -66,38 +130,6 @@ const offers: FullOffer[] = [
     },
     images: ['apartment1-01.png', 'apartment1-02.png', 'apartment1-03.png', 'apartment1-04.png', 'apartment1-05.png', 'apartment1-06.png'],
     maxAdults: 2,
-  },
-  {
-    id: 'cde45f67-890a-1234-5678-90abcdef1234',
-    title: 'Canal View Apartment',
-    type: 'apartment',
-    price: 250,
-    city: {
-      name: 'Amsterdam',
-      location: {
-        latitude: 52.370216,
-        longitude: 4.895168,
-        zoom: 10
-      }
-    },
-    location: {
-      latitude: 52.37561,
-      longitude: 4.90197,
-      zoom: 16
-    },
-    isFavorite: false,
-    isPremium: true,
-    rating: 4.2,
-    description: 'Modern apartment with stunning views of the Amsterdam canals.',
-    bedrooms: 2,
-    goods: ['Wi-Fi', 'Dishwasher', 'Parking'],
-    host: {
-      name: 'Crocodilo',
-      avatarUrl: 'crocodilo.png',
-      isPro: true
-    },
-    images: ['apartment2-01.png', 'apartment2-02.png', 'apartment2-03.png', 'apartment2-04.png', 'apartment2-05.png', 'apartment2-06.png'],
-    maxAdults: 3,
   },
   {
     id: 'fgh78i90-123j-456k-789l-0123456789ab',

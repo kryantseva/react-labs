@@ -10,9 +10,11 @@ type CitiesCardProps = {
   isPremium: boolean;
   previewImage: string;
   rating: number;
+  onMouseOver?: () => void;
+  onMouseOut?: () => void;
 };
 
-function CitiesCard({ id, title, type, price, isPremium, previewImage, rating }: CitiesCardProps): JSX.Element {
+function CitiesCard({ id, title, type, price, isPremium, previewImage, rating, onMouseOver, onMouseOut }: CitiesCardProps): JSX.Element {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [activeOfferId, setActiveOfferId] = React.useState<string | null>(null); // Это предупреждение ESLint 'activeOfferId' is assigned a value but never used
 
@@ -21,8 +23,8 @@ function CitiesCard({ id, title, type, price, isPremium, previewImage, rating }:
   return (
     <article
       className="cities__card place-card"
-      onMouseOver={() => setActiveOfferId(id)}
-      onMouseOut={() => setActiveOfferId(null)}
+      onMouseOver={onMouseOver}
+      onMouseOut={onMouseOut}
     >
       {isPremium && (
         <div className="place-card__mark">
