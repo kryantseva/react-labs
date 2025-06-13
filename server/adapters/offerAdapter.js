@@ -7,22 +7,18 @@ const cityCoordinates = {
     Dusseldorf: { latitude: 51.2277, longitude: 6.7735, zoom: 13 }
 };
 
-const getBaseUrl = () => `${process.env.HOST}:${process.env.PORT || 5000}`;
-
-const adaptImagePaths = (imagePath) => {
-    const baseUrl = getBaseUrl();
-    if (imagePath && !imagePath.startsWith('http')) {
-        return `${baseUrl}${imagePath.startsWith('/') ? '' : '/'}${imagePath}`;
+const adaptImagePathForClient = (imagePath) => {
+    if (imagePath && (imagePath.startsWith('/static/') || imagePath.startsWith('http'))) {
+        return imagePath;
     }
-    return imagePath;
+    return `/static/${imagePath.split('/').pop()}`;
 };
+
 
 const adaptOfferToClient = (offer) => {
     const cityLocation = cityCoordinates[offer.city];
     let previewImage = offer.previewImage;
-    if (previewImage && !previewImage.startsWith('http')) {
-      previewImage = `${getBaseUrl()}${previewImage.startsWith('/') ? '' : '/'}${previewImage}`;
-    }
+
     return {
         id: String(offer.id),
         title: offer.title,
@@ -34,8 +30,9 @@ const adaptOfferToClient = (offer) => {
         },
         location: offer.latitude && offer.longitude ? {
             latitude: parseFloat(offer.latitude),
-            longitude: parseFloat(offer.longitude)
-        } : { latitude: 0, longitude: 0 },
+            longitude: parseFloat(offer.longitude),
+            zoom: 0
+        } : { latitude: 0, longitude: 0, zoom: 0 },
         isFavorite: offer.isFavorite,
         isPremium: offer.isPremium,
         rating: parseFloat(offer.rating),
@@ -43,10 +40,10 @@ const adaptOfferToClient = (offer) => {
     };
 };
 
-const adaptFullOfferToClient = (offer) => { 
-    const baseAdapted = adaptOfferToClient(offer); 
+const adaptFullOfferToClient = (offer) => {
+    const baseAdapted = adaptOfferToClient(offer);
 
-    const photos = offer.photos ? offer.photos.map(adaptImagePaths) : [];
+    const photos = offer.photos ? offer.photos.map(adaptImagePathForClient) : [];
     const features = offer.features || [];
 
     return {
@@ -59,7 +56,7 @@ const adaptFullOfferToClient = (offer) => {
             id: String(offer.author.id),
             name: offer.author.username,
             isPro: offer.author.userType === 'pro',
-            avatarUrl: adaptImagePaths(offer.author.avatar)
+            avatarUrl: adaptImagePathForClient(offer.author.avatar)
         } : null,
         images: photos,
         commentsCount: offer.commentsCount,

@@ -1,0 +1,11 @@
+// client/src/const/project.ts
+
+const RATING_COEFFICIENT = 20;
+const OFFER_IMAGES_MAX_COUNT = 6;
+const PROPERTY_GOODS_MAX_COUNT = 10;
+
+export {
+  RATING_COEFFICIENT,
+  OFFER_IMAGES_MAX_COUNT,
+  PROPERTY_GOODS_MAX_COUNT
+};
